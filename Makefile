@@ -10,3 +10,9 @@ link:
 unlink:
 	unlink qmk_firmware/keyboards/five_by_six
 	unlink qmk_firmware/keyboards/more_organic
+
+
+.PHONY: git-submodule
+git-submodule:
+	git submodule sync --recursive
+	git submodule update --init --recursive --progress
