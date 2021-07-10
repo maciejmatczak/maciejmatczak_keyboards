@@ -20,8 +20,8 @@
 enum layers {
   _BASE,
   _LOWER,
-  _RAISE,
-  _NUMPAD,
+  _CHARS_LEFT,
+  _CHARS_RIGHT,
 };
 
 #define LOWER MO(_LOWER)
@@ -29,17 +29,21 @@ enum layers {
 #define NUMPAD MO(_NUMPAD)
 
 // Modfied home row keys
-#define M_A LSFT_T(KC_A)
-#define M_S LCTL_T(KC_S)
-#define M_D LGUI_T(KC_D)
-#define M_F LALT_T(KC_F)
+#define MM_A LSFT_T(KC_A)
+#define MM_S LCTL_T(KC_S)
+#define MM_D LGUI_T(KC_D)
+#define MM_F LALT_T(KC_F)
 
-#define M_J RALT_T(KC_J)
-#define M_K RGUI_T(KC_K)
-#define M_L RCTL_T(KC_L)
-#define M_SCLN RSFT_T(KC_SCLN)
+#define MM_J RALT_T(KC_J)
+#define MM_K RGUI_T(KC_K)
+#define MM_L RCTL_T(KC_L)
+#define MM_SCLN RSFT_T(KC_SCLN)
 
-#define M_ESC (LCTL_T(KC_ESC))
+#define MM_R LT(_LOWER, KC_R)
+#define MM_I LT(_CHARS_LEFT, KC_I)
+#define MM_E LT(_CHARS_RIGHT, KC_E)
+
+#define MM_ESC (LCTL_T(KC_ESC))
 
 // Biggest kudos goes for Smittey:
 // https://github.com/Smittey/qmk_firmware/blob/master/keyboards/planck/keymaps/smittey/keymap.c
@@ -60,10 +64,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
   [_BASE] = LAYOUT(
     KC_GRAVE,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,        KC_6,   KC_7,    KC_8,    KC_9,    KC_0, KC_MINS,
-      KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,        KC_Y,   KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
-       M_ESC,     M_A,     M_S,     M_D,     M_F,    KC_G,        KC_H,    M_J,     M_K,     M_L,  M_SCLN, KC_QUOT,
+      KC_TAB,    KC_Q,    KC_W,    MM_E,    MM_R,    KC_T,        KC_Y,   KC_U,    MM_I,    KC_O,    KC_P, KC_BSPC,
+      MM_ESC,    MM_A,    MM_S,    MM_D,    MM_F,    KC_G,        KC_H,   MM_J,    MM_K,    MM_L, MM_SCLN, KC_QUOT,
      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,        KC_N,   KC_M, KC_COMM,  KC_DOT, KC_SLSH, MT(MOD_RSFT, KC_ENT),
-     XXXXXXX, XXXXXXX, XXXXXXX,   LOWER,  KC_SPC, XXXXXXX,     XXXXXXX, KC_ENT,   RAISE, XXXXXXX, XXXXXXX, XXXXXXX
+     XXXXXXX, XXXXXXX, XXXXXXX,   LOWER,  KC_SPC, XXXXXXX,     XXXXXXX, KC_ENT,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
   ),
 
 
@@ -100,13 +104,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |Space |  |Space |      |      |      |      |      |
  * `-----------------------------------------'  `-----------------------------------------'
  */
-  [_RAISE] = LAYOUT(
+  [_CHARS_RIGHT] = LAYOUT(
      KC_F11,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,       KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F12,
-    KC_TILD, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_DEL,
+    KC_TILD, KC_EXLM,   KC_AT, _______,  KC_DLR, KC_PERC,     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_DEL,
     _______, XXXXXXX, XXXXXXX, KC_SLSH, KC_LCBR, KC_LBRC,     KC_RBRC, KC_RCBR, KC_BSLS, KC_MINS,  KC_EQL, KC_PIPE,
     _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX, KC_UNDS, KC_PLUS, MT(MOD_LSFT, KC_ENT),
     _______, _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______, _______
   ),
+  [_CHARS_LEFT] = LAYOUT(
+     KC_F11,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,       KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F12,
+    KC_TILD, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,     KC_CIRC, KC_AMPR, _______, KC_LPRN, KC_RPRN,  KC_DEL,
+    _______, XXXXXXX, XXXXXXX, KC_SLSH, KC_LCBR, KC_LBRC,     KC_RBRC, KC_RCBR, KC_BSLS, KC_MINS,  KC_EQL, KC_PIPE,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX, KC_UNDS, KC_PLUS, MT(MOD_LSFT, KC_ENT),
+    _______, _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______, _______
+  )
 
 
 /* ,-----------------------------------------.  ,-----------------------------------------.
@@ -121,11 +132,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      | LGUI | Alt  |      |      |Space |  |Space |      |   0  |   .  |Enter |Right |
  * `-----------------------------------------'  `-----------------------------------------'
  */
-  [_NUMPAD] = LAYOUT(
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_PSLS, KC_PAST, KC_PMNS, _______,
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,    KC_7,    KC_8,    KC_9, KC_PPLS,  KC_DEL,
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,    KC_4,    KC_5,    KC_6, KC_PPLS, KC_BSLS,
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,    KC_1,    KC_2,    KC_3, KC_PENT, MT(MOD_RSFT, KC_ENT),
-    _______, _______, _______, _______, _______, _______,     _______,    KC_0,    KC_0,  KC_DOT, KC_PENT, KC_RGHT
-  ),
+  // [_CHARS_LEFT] = LAYOUT(
+  //   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_PSLS, KC_PAST, KC_PMNS, _______,
+  //   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,    KC_7,    KC_8,    KC_9, KC_PPLS,  KC_DEL,
+  //   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,    KC_4,    KC_5,    KC_6, KC_PPLS, KC_BSLS,
+  //   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,    KC_1,    KC_2,    KC_3, KC_PENT, MT(MOD_RSFT, KC_ENT),
+  //   _______, _______, _______, _______, _______, _______,     _______,    KC_0,    KC_0,  KC_DOT, KC_PENT, KC_RGHT
+  // ),
 };
